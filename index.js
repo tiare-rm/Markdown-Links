@@ -6,7 +6,7 @@ const { readDirectory, identifyDirectory } = require("./funcionesPuras");
 // si se debe usar readDirSync(directorio), statSync y stat
 
 // 1 identificar si la ruta existe
-module.exports.mdLinksmdLinks = (path, options) => {
+module.exports.mdLinks = (path, options) => {
   // debe tomar como parametro path y options
   // se devuelve una promesa, con una funcion ejecutora cual es asincrona
   return new Promise((resolve, reject) => {
@@ -18,10 +18,10 @@ module.exports.mdLinksmdLinks = (path, options) => {
       return;
     }
     console.log("existing path");
-
+ 
     // 2 identificar si es relativa o absoluta,
     // se usa isAbsolute para devolver un booleano si es absoluta TRUE o relativa FALSE
-    const relativePath = "../Diseño sin título.png";
+    const relativePath = "./index.js";
     console.log(path.isAbsolute(relativePath)); // deberia dar FALSE
 
     const absolutePath = path.resolve(relativePath);
