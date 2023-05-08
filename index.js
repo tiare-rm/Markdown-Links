@@ -1,9 +1,7 @@
 const { existsSync } = require("node:fs"); // para ver si la path existe
-const pathModule = require('path');
+const pathModule = require("path");
 const { readDirectory, identifyDirectory } = require("./API");
 // este archivo solo debe encargarse de la logica principal
-
-// si se debe usar readDirSync(directorio), statSync y stat
 
 // 1 identificar si la ruta existe
 const mdLinks = (path = "README.md", options) => {
@@ -17,38 +15,45 @@ const mdLinks = (path = "README.md", options) => {
       reject(new Error("the path does not exist"));
       return;
     }
-   console.log("existing path");
- 
+    console.log("existing path");
+
     // 2 identificar si es relativa o absoluta,
     // se usa isAbsolute para devolver un booleano si es absoluta TRUE o relativa FALSE
-    const rutaRelativa = './Ghost Files/Test 1.txt';
-    const rutaAbsoluta = 'C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md';
-    console.log(pathModule.isAbsolute(rutaRelativa)); // FALSE si es relativa
-    console.log(pathModule.isAbsolute(rutaAbsoluta)); // TRUE si es absoluta 
+    const relative = "./Ghost Files/Test 1.txt";
+    const absolute =
+      "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md";
+    console.log(pathModule.isAbsolute(relative)); // FALSE si es relativa
+    console.log(pathModule.isAbsolute(absolute)); // TRUE si es absoluta
 
     //3 revisar la ruta y si es relativa se convierte a absoluta
-    // const absolute = path.resolve([path]);
-    // console.log(absolute);
+    const relativePath = "./Ghost Files/Test 1.txt"; // Ruta relativa a convertir
+    const basePath = "/Ghost Files"; // ruta principal o carpeta principal
+    // * originalmente use resolve metodo para convertir un segmento de paths en absolute
+    // use join el cual usa la ruta adecuada segun el sistema operativo que se ejecuta el código
+    const absolutePath = pathModule.join(basePath, relativePath);
+    console.log(absolutePath); // Imprime la ruta absoluta en la consola
 
     // 4. identificar si es directorio o archivo
     // identifyDirectory()
 
     // 5. se lee los archivos y directorios
-    /* readDirectory(absolutePath)
+    /*readDirectory(absolutePath)
       .then((files) => {
         console.log(files);
       })
       .catch((err) => {
         console.error(err);
-      });   */
+      });  */
   });
 };
 mdLinks();
-module.exports = { mdLinks};
+module.exports = { mdLinks };
+// si se debe usar readDirSync(directorio), statSync y stat
 // 5. leer contenido de un directorio y obtener informacion sobre cada archivo
 // en punto 4 usar fs.readerSync y se obtiene lista de los archivos y directorios
 // y uso de fs.statSync() para pbtener info sobre cada archivo o directorio en la listra
 // 6 leer contenido de file
+// 7 readfile leer ruta y contenido + promesa buscar los archivos y links con parametros -
 // ejemplos de codigo
 /* const fs = require('fs');
 const path = require('path');
