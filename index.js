@@ -1,12 +1,12 @@
 const { existsSync } = require("node:fs"); // para ver si la path existe
-const path = require("path");
-const { readDirectory, identifyDirectory } = require("./funcionesPuras");
+const pathModule = require('path');
+const { readDirectory, identifyDirectory } = require("./API");
 // este archivo solo debe encargarse de la logica principal
 
 // si se debe usar readDirSync(directorio), statSync y stat
 
 // 1 identificar si la ruta existe
-module.exports.mdLinks = (path, options) => {
+const mdLinks = (path = "README.md", options) => {
   // debe tomar como parametro path y options
   // se devuelve una promesa, con una funcion ejecutora cual es asincrona
   return new Promise((resolve, reject) => {
@@ -17,34 +17,34 @@ module.exports.mdLinks = (path, options) => {
       reject(new Error("the path does not exist"));
       return;
     }
-    console.log("existing path");
+   console.log("existing path");
  
     // 2 identificar si es relativa o absoluta,
     // se usa isAbsolute para devolver un booleano si es absoluta TRUE o relativa FALSE
-    const relativePath = "./index.js";
-    console.log(path.isAbsolute(relativePath)); // deberia dar FALSE
+    const rutaRelativa = './Ghost Files/Test 1.txt';
+    const rutaAbsoluta = 'C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md';
+    console.log(pathModule.isAbsolute(rutaRelativa)); // FALSE si es relativa
+    console.log(pathModule.isAbsolute(rutaAbsoluta)); // TRUE si es absoluta 
 
-    const absolutePath = path.resolve(relativePath);
-    console.log(absolutePath); // '../Md-Links/Ghost Files/Diseño sin título.png'; ruta real del archivo
-    console.log(path.isAbsolute(absolutePath)); // deberia dar TRUE
+    //3 revisar la ruta y si es relativa se convierte a absoluta
+    // const absolute = path.resolve([path]);
+    // console.log(absolute);
 
-    //2.1 revisar la ruta y si es relativa se convierte a absoluta
-    const absolute = path.resolve([path]);
-    console.log(absolute);
+    // 4. identificar si es directorio o archivo
+    // identifyDirectory()
 
-    // 3. identificar si es directorio o archivo
-    identifyDirectory()
-
-    // 4. se lee los archivos y directorios
-    readDirectory(absolutePath)
+    // 5. se lee los archivos y directorios
+    /* readDirectory(absolutePath)
       .then((files) => {
         console.log(files);
       })
       .catch((err) => {
         console.error(err);
-      });   
+      });   */
   });
 };
+mdLinks();
+module.exports = { mdLinks};
 // 5. leer contenido de un directorio y obtener informacion sobre cada archivo
 // en punto 4 usar fs.readerSync y se obtiene lista de los archivos y directorios
 // y uso de fs.statSync() para pbtener info sobre cada archivo o directorio en la listra
