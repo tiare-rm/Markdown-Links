@@ -3,6 +3,10 @@ const pathModule = require("path");
 const { readDirectory, identifyDirectory } = require("./API");
 // este archivo solo debe encargarse de la logica principal
 
+const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md"; // absoluta
+const directory = 'C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links';
+// const file = "./ejemplo.md/";
+
 // 1 identificar si la ruta existe
 const mdLinks = (path = "README.md", options) => {
   // debe tomar como parametro path y options
@@ -34,16 +38,16 @@ const mdLinks = (path = "README.md", options) => {
     console.log(absolutePath); // Imprime la ruta absoluta en la consola
 
     // 4. identificar si es directorio o archivo
-    // identifyDirectory()
+    identifyDirectory();
 
     // 5. se lee los archivos y directorios
-    /*readDirectory(absolutePath)
+    readDirectory(absolutePath)
       .then((files) => {
         console.log(files);
       })
       .catch((err) => {
         console.error(err);
-      });  */
+      });
   });
 };
 mdLinks();

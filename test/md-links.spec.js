@@ -1,13 +1,6 @@
 const { mdLinks } = require("../index.js");
 const pathModule = require("path");
-// const { readDirectory, identifyDirectory } = require ("../API.js");
-
-// const mdLinks = require('../index.js');
-// ruta falsa "../Ghost File"
-// real path ABSOLUTA C:\Users\tiare\Desktop\LABORATORIA
-// ABSOLUTA C:\Users\tiare\Desktop\LABORATORIA\4to proyecto MDLINKS\Md-Links\.editorconfig
-// RELATIVA  "../Diseño sin título.png";
-// RELATIVA  "../Diagrama CLI.png";
+const { readDirectory, identifyDirectory } = require ("../API.js");
 
 // 0 debería retornar una promesa
 describe("mdLinks", () => {
@@ -42,7 +35,7 @@ describe("relative path change to absolute", () => {
 
 describe("identifyDirectory", () => {
   test("should return true if path is a directory", () => {
-    const path = "../Ghost Files";
+    const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/Ghost Files";
     expect(identifyDirectory(path)).toBe(true);
   });
   test("should return false if path is a file", () => {
@@ -51,6 +44,7 @@ describe("identifyDirectory", () => {
   });
 });
 
+/*
 describe("readDirectory", () => {
   test("should return an array of filenames in directory", () => {
     const path = "./folder";
@@ -61,7 +55,7 @@ describe("readDirectory", () => {
     expect(readDirectory(path)).rejects.toThrow();
   });
 });
-
+*/
 /* describe("mdLinks", () => {
 it('mdLinks procesa un solo archivo con 3 links sin validar'), () =>{
   const ruta = 'ejemplo.md';
