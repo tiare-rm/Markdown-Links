@@ -38,7 +38,7 @@ const mdLinks = (path = "README.md", options) => {
     const absolutePath = pathModule.join(basePath, relativePath);
     console.log(absolutePath); // Imprime la ruta absoluta en la consola
 
-    // 4. se identifica si es directorio o archivo y se se lee los archivos y directorios
+    // 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
     readDirectory(directory)
       .then((files) => {
         // se lee todo lo que hay dentro de mi markdown-links aka directorio

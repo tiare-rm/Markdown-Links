@@ -20,7 +20,7 @@ const directory =
 };
 identifyDirectory(); //llamada a la funcion para que sea pintada en la terminal */
 
-// 5. función que lee el directorio y retorna un array con los nombres de los archivos y subdirectorios
+// 4. función que lee el directorio y retorna un array con los nombres de los archivos y subdirectorios
 // path en este caso sería la constante ya definida en directory
 const readDirectory = (path) => {
   return new Promise((resolve, reject) => {
