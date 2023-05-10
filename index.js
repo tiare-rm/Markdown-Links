@@ -1,10 +1,11 @@
 const { existsSync } = require("node:fs"); // para ver si la path existe
 const pathModule = require("path");
-const { readDirectory, identifyDirectory } = require("./API");
+const { readDirectory } = require("./API");
 // este archivo solo debe encargarse de la logica principal
 
-const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md"; // absoluta
-const directory = 'C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links';
+// const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // absoluta
+const directory =
+  "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
 // const file = "./ejemplo.md/";
 
 // 1 identificar si la ruta existe
@@ -37,27 +38,36 @@ const mdLinks = (path = "README.md", options) => {
     const absolutePath = pathModule.join(basePath, relativePath);
     console.log(absolutePath); // Imprime la ruta absoluta en la consola
 
-    // 4. identificar si es directorio o archivo
-    identifyDirectory();
-
-    // 5. se lee los archivos y directorios
-    readDirectory(absolutePath)
+    // 4. se identifica si es directorio o archivo y se se lee los archivos y directorios
+    readDirectory(directory)
       .then((files) => {
-        console.log(files);
+        // se lee todo lo que hay dentro de mi markdown-links aka directorio
+        console.log(files, "list of files inside the directory");
+        // uso de filter para que me devuelva un array de los elementos dentro de la condición
+        // en este caso estoy buscando solo elementos md con extensión .md
+        const mdFiles = files.filter(
+          // uso path.extname para obtener la extension de cada uno de los archivos dentro de mi array file
+          // pathModule file debe ser extrictamente igua a .md
+          (file) => pathModule.extname(file) === ".md"
+        ); //path.extname
+        // se pinta en consola en un nuevo formato de arrays
+        console.log(mdFiles, "list of markdown files inside the directory");
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err, "can not read files and directories");
       });
   });
 };
 mdLinks();
 module.exports = { mdLinks };
+
 // si se debe usar readDirSync(directorio), statSync y stat
-// 5. leer contenido de un directorio y obtener informacion sobre cada archivo
-// en punto 4 usar fs.readerSync y se obtiene lista de los archivos y directorios
 // y uso de fs.statSync() para pbtener info sobre cada archivo o directorio en la listra
-// 6 leer contenido de file
-// 7 readfile leer ruta y contenido + promesa buscar los archivos y links con parametros -
+// 5 leer contenido de file --- filtrar los archivos e identificar si hay .md???
+// 6 es archivo md si se retorna promesa sino validate
+// readfile leer ruta y contenido + promesa buscar los archivos y links con parametros -
+// 7.- determinar los boleanos en respuesta true con href, text y file; y true con otros xxxxx // Expresiones regulares
+// 8.- unir dos rutas usando FS
 // ejemplos de codigo
 /* const fs = require('fs');
 const path = require('path');

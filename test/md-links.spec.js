@@ -1,6 +1,6 @@
 const { mdLinks } = require("../index.js");
 const pathModule = require("path");
-const { readDirectory, identifyDirectory } = require ("../API.js");
+const { readDirectory } = require ("../API.js");
 
 // 0 debería retornar una promesa
 describe("mdLinks", () => {
@@ -33,6 +33,7 @@ describe("relative path change to absolute", () => {
   });
 });
 
+/*
 describe("identifyDirectory", () => {
   test("should return true if path is a directory", () => {
     const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/Ghost Files";
