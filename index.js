@@ -1,6 +1,6 @@
 const { existsSync } = require("node:fs"); // para ver si la path existe
 const pathModule = require("path");
-const { readDirectory } = require("./API");
+const { readDirectory, findingLinks } = require("./API");
 // este archivo solo debe encargarse de la logica principal
 
 // const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // absoluta
@@ -56,6 +56,9 @@ const mdLinks = (path = "README.md", options) => {
       .catch((err) => {
         console.error(err, "can not read files and directories");
       });
+
+    //5. FUNCION API se leen los links del archivo ejemplo.md
+    findingLinks("ejemplo.md");
   });
 };
 mdLinks();
@@ -63,9 +66,8 @@ module.exports = { mdLinks };
 
 // si se debe usar readDirSync(directorio), statSync y stat
 // y uso de fs.statSync() para pbtener info sobre cada archivo o directorio en la listra
-// 5 leer contenido de file --- filtrar los archivos e identificar si hay .md???
-// 6 es archivo md si se retorna promesa sino validate
-// readfile leer ruta y contenido + promesa buscar los archivos y links con parametros -
+// 5 es archivo md y buscar los links dentro de ese archivo usando READFILE y regex
+// 6.1 validar los links y que nos deen las respuestas del 7 me imagino
 // 7.- determinar los boleanos en respuesta true con href, text y file; y true con otros xxxxx // Expresiones regulares
 // 8.- unir dos rutas usando FS
 // ejemplos de codigo

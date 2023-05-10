@@ -1,6 +1,6 @@
 const { mdLinks } = require("../index.js");
 const pathModule = require("path");
-const { readDirectory } = require("../API.js");
+const { readDirectory, findingLinks  } = require("../API.js");
 
 // 0 debería retornar una promesa
 describe("mdLinks", () => {
@@ -35,19 +35,31 @@ describe("relative path change to absolute", () => {
   });
 });
 
+// 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
 describe("readDirectory", () => {
   test("4 should return an array of filenames in directory", () => {
+    // comprobar que funciona en una carpeta existente 
     const directory =
       "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
+      // devolviendo un array con los nombres de los archivos 
     expect(readDirectory(directory)).resolves.toEqual([
       "file1.txt",
       "file2.txt",
     ]);
   });
+  // aquí se busca comprobar que se manejen adecuadamente los casos en donde 
+  //la carpeta no existe
   test("4 should reject with an error if directory does not exist", () => {
     const directory = "./doesnotexist";
     expect(readDirectory(directory)).rejects.toThrow();
   });
+});
+
+//5. FUNCION API se leen los links del archivo ejemplo.md
+describe("findingLinks", () => {
+  test ("5 links in file have been found", () => {
+    
+  });  
 });
 
 /* USAR PARA LOS LINKS???
