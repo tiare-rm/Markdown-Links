@@ -28,26 +28,44 @@ readDirectory(directory); // llamada a la funcion para que sea pintada en la ter
 
 //5 leer archivo y buscar los enlaces dentro de él.
 // file links es la ruta
-const findingLinks = (fileLinks) => {
-  // se usa la biblioteca fs de node para leer el archivo de fileLinks 
-  fs.promises
-    .readFile(fileLinks, "utf8") // utf8, is a variable-length character encoding standard used for electronic communication
-    .then((data) => {
-      // se busca en el archivo algun texto md con esta expresion regular
-      const regex = /\[(.+)\]\((http[s]?:\/\/.+)\)/g;
-      // si se encuentra el enlace se extrae el url y el texto que se imprime en la consola
-      let match;
-      while ((match = regex.exec(data))) {
-        const href = match[1]; // URL
-        const text = match[2]; //texto
-        console.log(href, text, fileLinks);
-      }
-    })
-    .catch((err) => {
-      console.error(err, "cannot read file");
-    });
+// cadena que representa la ruta del archivo y el callback me llama a la función que llamará a los
+// resultados de los enlaces, se usa en vez de usar async/await
+const findingLinks = (fileLinks, callback) => {
+  // se usa la biblioteca fs de node para leer el archivo de fileLinks
+  // se almacena el archivo de fileLinks en la variable data
+  fs.readFile(fileLinks, "utf8", (err, data) => {
+    // utf8, is a variable-length character encoding standard used for electronic communication
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // se busca en el archivo algun texto md con esta expresion regular, lo que hace es
+    // que se busca un patrón de texto entre corchetes, URL y parantesis
+    const regex = /\[(.+)\]\((http[s]?:\/\/.+)\)/g;
+    // si se encuentra el enlace se extrae el url y el texto que se imprime en la consola
+    // se almacena en el objeto array llamado links
+    const links = [];
+    let match;
+    // se usa expresión while donde se asigna a match el resultado de ejecutar regex
+    // en el contenido de data
+    while ((match = regex.exec(data))) {
+      // se usa un while para que se siga ejecutando la expresión hasta que se encuentren más coincidencias
+      // se extrae el primer grupo url asignandole href
+      const href = match[1]; // URL
+      // se extrae el segundo contenido con variable text
+      const text = match[2]; //texto
+      // se crea el objeto con dos propiedad en links y que tiene los enlaces encontrados
+      // se crea con liks.push un objeto usando la variable como nombre de la propiedad
+      links.push({ href, text });
+    }
+    // cuando termina la función se llama a callback que se pasa como argumento el array links
+    callback(links);
+  });
 };
-findingLinks("ejemplo.md");
+// con estos codigos se pinta la informacion en consola
+findingLinks(fileLinks, (links) => {
+  console.log(links);
+});
 
 module.exports = {
   readDirectory,

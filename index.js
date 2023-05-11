@@ -58,7 +58,7 @@ const mdLinks = (path = "README.md", options) => {
       });
 
     //5. FUNCION API se leen los links del archivo ejemplo.md
-    findingLinks("ejemplo.md");
+   findingLinks();
   });
 };
 mdLinks();
@@ -66,8 +66,7 @@ module.exports = { mdLinks };
 
 // si se debe usar readDirSync(directorio), statSync y stat
 // y uso de fs.statSync() para pbtener info sobre cada archivo o directorio en la listra
-// 5 es archivo md y buscar los links dentro de ese archivo usando READFILE y regex
-// 6.1 validar los links y que nos deen las respuestas del 7 me imagino
+// 6.1 validar los links y que nos deen las respuestas del 7 me imagino peticiones
 // 7.- determinar los boleanos en respuesta true con href, text y file; y true con otros xxxxx // Expresiones regulares
 // 8.- unir dos rutas usando FS
 // ejemplos de codigo
