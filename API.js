@@ -50,13 +50,13 @@ const findingLinks = (fileLinks, callback) => {
     // en el contenido de data
     while ((match = regex.exec(data))) {
       // se usa un while para que se siga ejecutando la expresión hasta que se encuentren más coincidencias
-      // se extrae el primer grupo url asignandole href
-      const href = match[1]; // URL
       // se extrae el segundo contenido con variable text
-      const text = match[2]; //texto
+      const text = match[1]; //texto
+      // se extrae el primer grupo url asignandole href
+      const href = match[2]; // URL
       // se crea el objeto con dos propiedad en links y que tiene los enlaces encontrados
-      // se crea con liks.push un objeto usando la variable como nombre de la propiedad
-      links.push({ href, text });
+      // se crea con liks.push un objeto usando la variable como nombre de la
+      links.push({ text, href });
     }
     // cuando termina la función se llama a callback que se pasa como argumento el array links
     callback(links);

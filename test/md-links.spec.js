@@ -57,7 +57,8 @@ describe("readDirectory", () => {
 //5. FUNCION API se leen los links del archivo ejemplo.md
 describe("findingLinks", () => {
   test("5 find links in file ejemplo.md", (done) => {
-    const fileLinks = "ejemplo.md"; //se usa la ruta al archivo
+    const fileLinks =
+      "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md"; //se usa la ruta al archivo
     const expected = [
       {
         href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript",

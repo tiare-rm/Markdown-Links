@@ -6,7 +6,7 @@ const { readDirectory, findingLinks } = require("./API");
 // const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // absoluta
 const directory =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
-// const file = "./ejemplo.md/";
+const file = "./ejemplo.md/";
 
 // 1 identificar si la ruta existe
 const mdLinks = (path = "README.md", options) => {
@@ -20,15 +20,15 @@ const mdLinks = (path = "README.md", options) => {
       reject(new Error("the path does not exist"));
       return;
     }
-    console.log("existing path");
+   //console.log("existing path");
 
     // 2 identificar si es relativa o absoluta,
     // se usa isAbsolute para devolver un booleano si es absoluta TRUE o relativa FALSE
     const relative = "./Ghost Files/Test 1.txt";
     const absolute =
       "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md";
-    console.log(pathModule.isAbsolute(relative)); // FALSE si es relativa
-    console.log(pathModule.isAbsolute(absolute)); // TRUE si es absoluta
+    //console.log(pathModule.isAbsolute(relative)); // FALSE si es relativa
+    //console.log(pathModule.isAbsolute(absolute)); // TRUE si es absoluta
 
     //3 revisar la ruta y si es relativa se convierte a absoluta
     const relativePath = "./Ghost Files/Test 1.txt"; // Ruta relativa a convertir
@@ -36,7 +36,10 @@ const mdLinks = (path = "README.md", options) => {
     // * originalmente use resolve metodo para convertir un segmento de paths en absolute
     // use join el cual usa la ruta adecuada segun el sistema operativo que se ejecuta el código
     const absolutePath = pathModule.join(basePath, relativePath);
-    console.log(absolutePath); // Imprime la ruta absoluta en la consola
+    //console.log(absolutePath); // Imprime la ruta absoluta en la consola
+
+    const joinPath = pathModule.join(directory, file);
+    console.log(joinPath, 'JOIN PATH'); //
 
     // 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
     readDirectory(directory)
@@ -58,7 +61,9 @@ const mdLinks = (path = "README.md", options) => {
       });
 
     //5. FUNCION API se leen los links del archivo ejemplo.md
-   findingLinks();
+    findingLinks("./ejemplo.md", (links) => {
+      console.log(links);
+    });
   });
 };
 mdLinks();
