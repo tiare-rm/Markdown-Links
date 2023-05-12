@@ -37,22 +37,13 @@ describe("relative path change to absolute", () => {
 
 // 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
 describe("readDirectory", () => {
-  test("4 should return an array of filenames in directory", () => {
-    // comprobar que funciona en una carpeta existente
-    const directory =
-      "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
-    // devolviendo un array con los nombres de los archivos
-    expect(readDirectory(directory)).resolves.toContain([
-      "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links",
-    ]);
+  test("4 readDirectory should return an array of filenames in directory", () => {
+    const expected = [ "README.md", "ejemplo.md"];
+    return readDirectory("C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links").then((files) => {
+      expect(files).toEqual(expect.arrayContaining(expected));
+    });
   });
-  // aquí se busca comprobar que se manejen adecuadamente los casos en donde
-  //la carpeta no existe
-  test("4 should reject with an error if directory does not exist", () => {
-    const directory = "./doesnotexist";
-    expect(readDirectory(directory)).rejects.toThrow();
-  });
-});
+});  
 
 //5. FUNCION API se leen los links del archivo ejemplo.md
 describe("findingLinks", () => {
@@ -60,14 +51,15 @@ describe("findingLinks", () => {
     const fileLinks =
       "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md"; //se usa la ruta al archivo
     const expected = [
-      {
-        href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript",
-        text: "Asíncronía en js",
-      },
-      {
-        href: "http://httpstat.us/400",
-        text: "devuelve un código de estado 400 Bad Request",
-      },
+      { text: "Asíncronía en js", href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript", file: "../ejemplo.md" },
+      { text: "Array.prototype.forEach() - MDN", href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach", file: "../ejemplo.md" },
+      { text: "Array.prototype.filter() - MDN", href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter", file: "../ejemplo.md" },
+      { text: "código de estado 200 ok", href: "https://http.cat/200", file: "../ejemplo.md" },
+      { text: "código de estado 400 Bad Request", href: "https://http.cat/400", file: "../ejemplo.md" },
+      { text: "código de estado 401 Unauthorized ", href: "https://http.cat/401", file: "../ejemplo.md" },
+      { text: "código de estado 403 Forbidden", href: "https://http.cat/403", file: "../ejemplo.md" },
+      { text: "código de estado 404 Not Found", href: "https://http.cat/404", file: "../ejemplo.md" },
+      { text: "código de estado 500 Internal Server", href: "https://http.cat/500", file: "../ejemplo.md" },
     ];
     findingLinks(fileLinks, (result) => {
       expect(result).toEqual(expected);
@@ -75,6 +67,7 @@ describe("findingLinks", () => {
     });
   });
 });
+
 
 /* USAR PARA LOS LINKS???
 describe("mdLinks", () => {

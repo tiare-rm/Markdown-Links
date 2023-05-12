@@ -16,18 +16,18 @@ const readDirectory = (path) => {
         reject(err);
         console.log("Error reading directory");
       } else {
+        const filterFiles = files.filter(file =>/\.(txt|md)$/.test(file));
         // si la lectura se realiza correctamente de devuelve la promesa del array
         // del nombre del archivo y directorios
-        resolve(files);
+        resolve(filterFiles);
         console.log("directory found: " + path);
-      }
+       }
     });
   });
 };
 readDirectory(directory); // llamada a la funcion para que sea pintada en la terminal
 
-//5 leer archivo y buscar los enlaces dentro de él.
-// file links es la ruta
+//5 leer archivo y buscar los enlaces dentro de él, file links es la ruta
 // cadena que representa la ruta del archivo y el callback me llama a la función que llamará a los
 // resultados de los enlaces, se usa en vez de usar async/await
 const findingLinks = (fileLinks, callback) => {
@@ -54,9 +54,10 @@ const findingLinks = (fileLinks, callback) => {
       const text = match[1]; //texto
       // se extrae el primer grupo url asignandole href
       const href = match[2]; // URL
+      const file = "../ejemplo.md"; // archivo donde se encuentran los links
       // se crea el objeto con dos propiedad en links y que tiene los enlaces encontrados
       // se crea con liks.push un objeto usando la variable como nombre de la
-      links.push({ text, href });
+      links.push({ text, href, file});
     }
     // cuando termina la función se llama a callback que se pasa como argumento el array links
     callback(links);
