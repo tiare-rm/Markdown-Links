@@ -1,11 +1,14 @@
 const axios = require('axios');
 
+// se busca los enlaces y se extrae la informacion de ellos URL, href, text y file
 function extractLinks(markdown, file, validate = false) {
   const links = [];
   const renderer = new marked.Renderer();
   renderer.link = function(href, title, text) {
     links.push({ href, text, file });
   };
+  // si validate es true se verifica que el enlace es valido agregando info adicional como 
+  // ok, status etc
   marked(markdown, { renderer });
   if (validate) {
     const promises = links.map(link => {
@@ -15,6 +18,7 @@ function extractLinks(markdown, file, validate = false) {
           link.ok = response.ok ? "ok" : "fail";
           return link;
         })
+        // si el parametro es false se resuelve con objetos de enlaces sin verificar
         .catch(error => {
           link.status = null;
           link.ok = error.message;

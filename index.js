@@ -1,7 +1,7 @@
 const { existsSync } = require("node:fs"); // para ver si la path existe
 const pathModule = require("path");
 const { readDirectory, findingLinks } = require("./API");
-const { extractLinks } = require('./valid');
+const { extractLinks } = require("./valid");
 // este archivo solo debe encargarse de la logica principal
 
 // const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // absoluta
@@ -66,14 +66,16 @@ const mdLinks = (path = "README.md", options) => {
       console.log(links);
     });
     // 6. se validan los links del archivo
-    // process regresa un comando de argumentos presentes en node.
+    // se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
     extractLinks(markdown, file, validate)
-    .then(links => {
-      console.log(links);
-    })
-    .catch(error => {
-      console.error(error);
-    });  
+      .then((links) => {
+        // si la promesa se resuelve se muestra en consola
+        console.log(links);
+      })
+      // si se rechaza se mostrara un mensaje de error
+      .catch((error) => {
+        console.error(error);
+      });
   });
 };
 mdLinks();
