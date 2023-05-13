@@ -1,6 +1,7 @@
 const { existsSync } = require("node:fs"); // para ver si la path existe
 const pathModule = require("path");
 const { readDirectory, findingLinks } = require("./API");
+const { extractLinks } = require('./valid');
 // este archivo solo debe encargarse de la logica principal
 
 // const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // absoluta
@@ -20,7 +21,7 @@ const mdLinks = (path = "README.md", options) => {
       reject(new Error("the path does not exist"));
       return;
     }
-   //console.log("existing path");
+    //console.log("existing path");
 
     // 2 identificar si es relativa o absoluta,
     // se usa isAbsolute para devolver un booleano si es absoluta TRUE o relativa FALSE
@@ -39,7 +40,7 @@ const mdLinks = (path = "README.md", options) => {
     //console.log(absolutePath); // Imprime la ruta absoluta en la consola
 
     const joinPath = pathModule.join(directory, file);
-    console.log(joinPath, 'JOIN PATH'); //
+    console.log(joinPath, "JOIN PATH"); // union de rutas
 
     // 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
     readDirectory(directory)
@@ -64,13 +65,20 @@ const mdLinks = (path = "README.md", options) => {
     findingLinks("./ejemplo.md", (links) => {
       console.log(links);
     });
+    // 6. se validan los links del archivo
+    // process regresa un comando de argumentos presentes en node.
+    extractLinks(markdown, file, validate)
+    .then(links => {
+      console.log(links);
+    })
+    .catch(error => {
+      console.error(error);
+    });  
   });
 };
 mdLinks();
 module.exports = { mdLinks };
 
-// si se debe usar readDirSync(directorio), statSync y stat
-// y uso de fs.statSync() para pbtener info sobre cada archivo o directorio en la listra
 // 6.1 validar los links y que nos deen las respuestas del 7 me imagino peticiones
 // 7.- determinar los boleanos en respuesta true con href, text y file; y true con otros xxxxx // Expresiones regulares
 // 8.- unir dos rutas usando FS

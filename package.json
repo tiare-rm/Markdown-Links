@@ -20,7 +20,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tiare-rm/Markdown-Links.git"
-  },
+  }, 
+  "dependencies": {
+    "axios": "^0.24.0"
+  },  
   "keywords": [
     "md-links",
     "markdown-links"
