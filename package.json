@@ -24,7 +24,7 @@
   "dependencies": {
     "axios": "^0.24.0"
   },  
-  "keywords": [
+   "keywords": [
     "md-links",
     "markdown-links"
   ],
