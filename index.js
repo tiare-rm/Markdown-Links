@@ -1,14 +1,14 @@
 const { existsSync } = require("node:fs"); // para ver si la path existe
 const pathModule = require("path");
 const { readDirectory, findingLinks } = require("./API");
-const { extractLinks } = require("./valid");
-
+const { validateLinks } = require("./valid");
 // este archivo solo debe encargarse de la logica principal
 
 // const path = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // absoluta
 const directory =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
 const file = "./ejemplo.md/";
+const markdown = "./ejemplo.md";
 
 // 1 identificar si la ruta existe
 const mdLinks = (path = "README.md", options) => {
@@ -41,13 +41,13 @@ const mdLinks = (path = "README.md", options) => {
     //console.log(absolutePath); // Imprime la ruta absoluta en la consola
 
     const joinPath = pathModule.join(directory, file);
-    console.log(joinPath, "JOIN PATH"); // union de rutas
+    // console.log(joinPath, "JOIN PATH"); // union de rutas
 
     // 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
     readDirectory(directory)
       .then((files) => {
         // se lee todo lo que hay dentro de mi markdown-links aka directorio
-        console.log(files, "list of files inside the directory");
+        // console.log(files, "list of files inside the directory");
         // uso de filter para que me devuelva un array de los elementos dentro de la condición
         // en este caso estoy buscando solo elementos md con extensión .md
         const mdFiles = files.filter(
@@ -64,27 +64,19 @@ const mdLinks = (path = "README.md", options) => {
 
     //5. FUNCION API se leen los links del archivo ejemplo.md
     findingLinks("./ejemplo.md", (links) => {
-      console.log(links);
+      // console.log(links, '+++++++');
+      // 6. se validan los links del archivo
+      // se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
+      validateLinks(links, file).then((links, file) => {
+        console.log(links, file);
+      });
     });
-    // 6. se validan los links del archivo
-    // se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
-   /* extractLinks(markdown, file, validate)
-      .then((links) => {
-        // si la promesa se resuelve se muestra en consola
-        console.log(links);
-      })
-      // si se rechaza se mostrara un mensaje de error
-      .catch((error) => {
-        console.error(error);
-      });*/
+    // aqui seguir con los otros codigos :)
   });
 };
 mdLinks();
 module.exports = { mdLinks };
 
-// 6.1 validar los links y que nos deen las respuestas del 7 me imagino peticiones
-// 7.- determinar los boleanos en respuesta true con href, text y file; y true con otros xxxxx // Expresiones regulares
-// 8.- unir dos rutas usando FS
 // ejemplos de codigo
 /* const fs = require('fs');
 const path = require('path');

@@ -9,3 +9,4 @@
 [código de estado 403 Forbidden](https://http.cat/403)
 [código de estado 404 Not Found](https://http.cat/404)
 [código de estado 500 Internal Server](https://http.cat/500)
+[codigo 301](http://httpstat.us/301)
