@@ -1,4 +1,4 @@
-const axios = require('axios');
+/* const axios = require('axios');
 
 // se busca los enlaces y se extrae la informacion de ellos URL, href, text y file
 function extractLinks(markdown, file, validate = false) {
@@ -34,7 +34,7 @@ function extractLinks(markdown, file, validate = false) {
 module.exports = {
   extractLinks,
 }
-
+*/
 // de lo que links que tengo uso axios y lo trabajo con promesas, llevarlo al validate y hacerlo ahi con foreach luego usar
 //promise.all para que mande los objetos url con el map
 /*const PROMESAS = URLS.map((url) => getStatus(url))
