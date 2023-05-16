@@ -3,10 +3,9 @@
 [Array.prototype.filter() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
 
 <!-- LINKS ROTOS -->
-[código de estado 200 ok](https://http.cat/200)
-[código de estado 400 Bad Request](https://http.cat/400)
-[código de estado 401 Unauthorized ](https://http.cat/401)
-[código de estado 403 Forbidden](https://http.cat/403)
-[código de estado 404 Not Found](https://http.cat/404)
-[código de estado 500 Internal Server](https://http.cat/500)
-[codigo 301](http://httpstat.us/301)
+
+[código de estado 200 ok](http://httpstat.us/200)
+[código de estado 400 Bad Request](https://httpstat.us/400)
+[código de estado 403 Forbidden](https://httpstat.us/403)
+[código de estado 404 Not Found](https://otra-cosa.net/algun-doc.html)
+[código de estado 500 Internal Server](https://httpstat.us/500)

@@ -1,12 +1,11 @@
 const fs = require("fs");
 // esta pagina sólo maneja la implementacion de fs
 const directory =
-  "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
+  "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // mi path
 const fileLinks =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md";
 
 // 4. función que lee el directorio y retorna un array con los nombres de los archivos y subdirectorios
-// path en este caso sería la constante ya definida en directory
 const readDirectory = (path) => {
   return new Promise((resolve, reject) => {
     // se usa readdir para leer los archivos y directorios especificados en path
@@ -16,12 +15,11 @@ const readDirectory = (path) => {
         reject(err);
         console.log("Error reading directory");
       } else {
-        const filterFiles = files.filter(file =>/\.(txt|md)$/.test(file));
-        // si la lectura se realiza correctamente de devuelve la promesa del array
-        // del nombre del archivo y directorios
+        const filterFiles = files.filter((file) => /\.(txt|md)$/.test(file));
+        // si la lectura se realiza correctamente de devuelve la promesa del array del nombre del archivo y directorios
         resolve(filterFiles);
         console.log("directory found: " + path);
-       }
+      }
     });
   });
 };
@@ -31,7 +29,6 @@ readDirectory(directory); // llamada a la funcion para que sea pintada en la ter
 // cadena que representa la ruta del archivo y el callback me llama a la función que llamará a los
 // resultados de los enlaces, se usa en vez de usar async/await
 const findingLinks = (fileLinks, callback) => {
-  // se usa la biblioteca fs de node para leer el archivo de fileLinks
   // se almacena el archivo de fileLinks en la variable data
   fs.readFile(fileLinks, "utf8", (err, data) => {
     // utf8, is a variable-length character encoding standard used for electronic communication
@@ -46,18 +43,17 @@ const findingLinks = (fileLinks, callback) => {
     // se almacena en el objeto array llamado links
     const links = [];
     let match;
-    // se usa expresión while donde se asigna a match el resultado de ejecutar regex
-    // en el contenido de data
-    while ((match = regex.exec(data))) {
+    // se usa expresión while donde se asigna a match el resultado de ejecutar regex en data 
+     while ((match = regex.exec(data))) {
       // se usa un while para que se siga ejecutando la expresión hasta que se encuentren más coincidencias
-      // se extrae el segundo contenido con variable text
+      // se extrae el primer contenido con variable text
       const text = match[1]; //texto
-      // se extrae el primer grupo url asignandole href
+      // se extrae el segundo contenido url asignandole href
       const href = match[2]; // URL
       const file = "../ejemplo.md"; // archivo donde se encuentran los links
       // se crea el objeto con dos propiedad en links y que tiene los enlaces encontrados
       // se crea con liks.push un objeto usando la variable como nombre de la
-      links.push({ text, href, file});
+      links.push({ text, href, file });
     }
     // cuando termina la función se llama a callback que se pasa como argumento el array links
     callback(links);

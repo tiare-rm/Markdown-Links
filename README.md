@@ -28,15 +28,21 @@ Para organizar los pasos a seguir, planificar tareas y objetivos en relación al
 
 - Diagrama de Flujo de la API
 
-![Imagen Diagrama API](./color%20Diagramas%20de%20flujo%20MD-LINKS%20-%20API%20Js.png)
+![Imagen Diagrama API]('./Diagramas/color Diagramas de flujo MD-LINKS - API Js.png')
 
 - Diagrama de Flujo del CLI
 
-![Imagen Diagrama CLI](./color%20Diagramas%20de%20flujo%20MD-LINKS%20-%20CLI%20L%C3%ADnea%20Interfaz%20de%20Comandos.png)
+![Imagen Diagrama CLI]('./Diagramas/color Diagramas de flujo MD-LINKS - CLI Línea Interfaz de Comandos.png')
 
 ## 4. Planificación Github Project
 
 Para realizar este proyecto se contaba con 4 sprints en los cuales se fueron desarrollando diferentes objetivos de acuerdo a la planicación inicial. 
+
+![1er Sprint]('./Planning/sprint1.png')
+
+![2do Sprint]('./Planning/sprint2.png')
+
+![3er Sprint]('./Planning/sprint3.png')
 
 ## 5. Interfaz de Línea de Comando (CLI)
 

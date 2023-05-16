@@ -1,6 +1,7 @@
 const { mdLinks } = require("../index.js");
 const pathModule = require("path");
 const { readDirectory, findingLinks } = require("../API.js");
+const { validateLinks } = require("../valid.js");
 
 // 0 debería retornar una promesa
 describe("mdLinks", () => {
@@ -38,12 +39,14 @@ describe("relative path change to absolute", () => {
 // 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
 describe("readDirectory", () => {
   test("4 readDirectory should return an array of filenames in directory", () => {
-    const expected = [ "README.md", "ejemplo.md"];
-    return readDirectory("C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links").then((files) => {
+    const expected = ["README.md", "ejemplo.md"];
+    return readDirectory(
+      "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"
+    ).then((files) => {
       expect(files).toEqual(expect.arrayContaining(expected));
     });
   });
-});  
+});
 
 //5. FUNCION API se leen los links del archivo ejemplo.md
 describe("findingLinks", () => {
@@ -51,19 +54,112 @@ describe("findingLinks", () => {
     const fileLinks =
       "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md"; //se usa la ruta al archivo
     const expected = [
-      { text: "Asíncronía en js", href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript", file: "../ejemplo.md" },
-      { text: "Array.prototype.forEach() - MDN", href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach", file: "../ejemplo.md" },
-      { text: "Array.prototype.filter() - MDN", href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter", file: "../ejemplo.md" },
-      { text: "código de estado 200 ok", href: "https://http.cat/200", file: "../ejemplo.md" },
-      { text: "código de estado 400 Bad Request", href: "https://http.cat/400", file: "../ejemplo.md" },
-      { text: "código de estado 401 Unauthorized ", href: "https://http.cat/401", file: "../ejemplo.md" },
-      { text: "código de estado 403 Forbidden", href: "https://http.cat/403", file: "../ejemplo.md" },
-      { text: "código de estado 404 Not Found", href: "https://http.cat/404", file: "../ejemplo.md" },
-      { text: "código de estado 500 Internal Server", href: "https://http.cat/500", file: "../ejemplo.md" },
+      {
+        text: "Asíncronía en js",
+        href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "Array.prototype.forEach() - MDN",
+        href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "Array.prototype.filter() - MDN",
+        href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 200 ok",
+        href: "http://httpstat.us/200",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 400 Bad Request",
+        href: "https://httpstat.us/400",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 403 Forbidden",
+        href: "https://httpstat.us/403",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 404 Not Found",
+        href: "https://otra-cosa.net/algun-doc.html",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 500 Internal Server",
+        href: "https://httpstat.us/500",
+        file: "../ejemplo.md",
+      },
     ];
     findingLinks(fileLinks, (result) => {
       expect(result).toEqual(expected);
       done();
+    });
+  });
+});
+
+//6 validacion de links 
+describe("validateLinks", () => {
+  it("6 should return a Promise that resolves to an array of link objects", () => {
+    const links = [
+      {
+        text: "Asíncronía en js",
+        href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "Array.prototype.forEach() - MDN",
+        href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "Array.prototype.filter() - MDN",
+        href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 200 ok",
+        href: "http://httpstat.us/200",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 400 Bad Request",
+        href: "https://httpstat.us/400",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 403 Forbidden",
+        href: "https://httpstat.us/403",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 404 Not Found",
+        href: "https://otra-cosa.net/algun-doc.html",
+        file: "../ejemplo.md",
+      },
+      {
+        text: "código de estado 500 Internal Server",
+        href: "https://httpstat.us/500",
+        file: "../ejemplo.md",
+      },
+    ];
+    const file = "../ejemplo.md";
+    return validateLinks(links, file).then((result) => {
+      // que es lo que se espera de esos resultados un array que tenga la misma longitud que links
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBe(links.length);
+      result.forEach((link) => {
+        // y que cada objeto cumpla con las siguientes propiedades 
+        expect(link).toHaveProperty('href');
+        expect(link).toHaveProperty('text');
+        expect(link).toHaveProperty('file');
+        expect(link).toHaveProperty('status');
+        expect(link).toHaveProperty('message');
+      });
     });
   });
 });
