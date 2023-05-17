@@ -5,7 +5,7 @@ const file = "./ejemplo.md";
 function validateLinks(links, file) {
   // console.log(links); // me muestra cuales son los links para ser verificados
   if (!Array.isArray(links)) { // se verifica que el parametro dado de links si sea un array
-    return new Error("Invalid links argument"); //si hay error esto se devuelve
+    return Promise.reject(new Error("Invalid links argument")); //si hay error esto se devuelve
   }
   // se crean promesas usando map (iterar los elementos dentro de una colección de arreglos)
   const promises = links.map((link) => {
@@ -23,16 +23,27 @@ function validateLinks(links, file) {
           };
         })
           .catch((error) => { // lo que ocurre si la petición falla 
+          if (error.response) {
           return {
             href: link.href,
             text: link.text,
             file: file,
             // si hay error se guarda el estado HTTP
-            status: error.response ? error.response.status : null,
+            status: error.response.status,
             message: "FAIL",
           };
-        });
+        }
+        else {
+          return {
+            href: link.href,
+            text: link.text,
+            file: file,
+            status: 404, // se asigna el estado 404 si la respuesta es null
+            message: "FAIL",
+          };
+        };
       });
+    });
   return Promise.all(promises); // se regresa la promesa cuando todo se ha cumplido 
 }
 
