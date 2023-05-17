@@ -2,6 +2,7 @@ const { existsSync } = require("node:fs"); // para ver si la path existe
 const pathModule = require("path");
 const { readDirectory, findingLinks } = require("./API");
 const { validateLinks } = require("./valid");
+const { stats } = require("./stats");
 
 const directory =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
@@ -60,7 +61,7 @@ const mdLinks = (path = "README.md", options) => {
       // console.log(links, '+++++++');
       // 6. se validan los links del archivo se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
       validateLinks(links, file).then((links) => {
-        console.log(links, file);
+        console.log(links);
       });
     });
     // aqui seguir con los otros codigos :)
