@@ -9,7 +9,7 @@ const directory =
 const file = "./ejemplo.md/";
 
 // 1 identificar si la ruta existe
-const mdLinks = (path = "README.md", options) => {
+const mdLinks = (path = "ejemplo.md", options) => {
   // se devuelve una promesa, con una funcion ejecutora cual es asincrona
   return new Promise((resolve, reject) => {
     // se identifica si la ruta existe
@@ -19,7 +19,7 @@ const mdLinks = (path = "README.md", options) => {
       reject(new Error("the path does not exist"));
       return;
     }
-    //console.log("existing path");
+    // console.log("existing path");
 
     // 2 identificar si es relativa o absoluta,
     const relative = "./Ghost Files/Test 1.txt";
@@ -36,8 +36,8 @@ const mdLinks = (path = "README.md", options) => {
     const absolutePath = pathModule.join(basePath, relativePath);
     //console.log(absolutePath); // Imprime la ruta absoluta en la consola
 
-    const joinPath = pathModule.join(directory, file);// union de rutas
-    // console.log(joinPath, "JOIN PATH"); 
+    const joinPath = pathModule.join(directory, file); // union de rutas
+   //  console.log(joinPath, "JOIN PATH");
 
     // 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
     readDirectory(directory)
@@ -49,11 +49,11 @@ const mdLinks = (path = "README.md", options) => {
           // uso path.extname para obtener la extension de cada uno de los archivos dentro de mi array file
           // pathModule file debe ser extrictamente igua a .md
           (file) => pathModule.extname(file) === ".md"
-        ); //path.extname devuelve la extension de un archivo en particular        
-        console.log(mdFiles, "list of markdown files inside the directory"); // se pinta en consola en un nuevo formato de arrays
+        ); //path.extname devuelve la extension de un archivo en particular
+       // console.log(mdFiles, "list of markdown files inside the directory"); // se pinta en consola en un nuevo formato de arrays
       })
       .catch((err) => {
-        console.error(err, "can not read files and directories");
+        // console.error(err, "can not read files and directories");
       });
 
     //5. FUNCION API se leen los links del archivo ejemplo.md
@@ -61,73 +61,11 @@ const mdLinks = (path = "README.md", options) => {
       // console.log(links, '+++++++');
       // 6. se validan los links del archivo se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
       validateLinks(links, file).then((links) => {
-        console.log(links);
+        // console.log(links);
       });
     });
-    // aqui seguir con los otros codigos :)
+    // aqui seguir con los otros codigos :)md-links
   });
 };
 mdLinks();
 module.exports = { mdLinks };
-
-// ejemplos de codigo
-/* const fs = require('fs');
-const path = require('path');
-
-const directorio = '/ruta/a/mi/directorio';
-
-const archivos = fs.readdirSync(directorio);
-
-archivos.forEach((archivo) => {
-  const rutaCompleta = path.join(directorio, archivo);
-  const stats = fs.statSync(rutaCompleta);
-
-  console.log(`${archivo}:`);
-  console.log(`- Tipo: ${stats.isDirectory() ? 'Directorio' : 'Archivo'}`);
-  console.log(`- Tamaño: ${stats.size} bytes`);
-  console.log(`- Fecha de creación: ${stats.birthtime}`);
-}); */
-
-/* module.exports = () => {
-  // ....
-}; */
-
-/* const mdLinks = require("md-links"); // 
-
-mdLinks("./some/example.md")
-  .then(links => {
-    // => [{ href, text, file }, ...]
-  })
-  .catch(console.error);
-
-mdLinks("./some/example.md", { validate: true })
-  .then(links => {
-    // => [{ href, text, file, status, ok }, ...]
-  })
-  .catch(console.error);
-
-mdLinks("./some/dir")
-  .then(links => {
-    // => [{ href, text, file }, ...]
-  })
-  .catch(console.error);
-*/
-/* El ejecutable de nuestra aplicación debe poder ejecutarse de la siguiente
-manera a través de la **terminal**:
-
-`md-links <path-to-file> [options]`
-
-Por ejemplo:
-
-```sh
-$ md-links ./some/example.md
-./some/example.md http://algo.com/2/3/ Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html algún doc
-./some/example.md http://google.com/ Google
-```
-
-El comportamiento por defecto no debe validar si las URLs responden ok o no,
-solo debe identificar el archivo markdown (a partir de la ruta que recibe como
-argumento), analizar el archivo Markdown e imprimir los links que vaya
-encontrando, junto con la ruta del archivo donde aparece y el texto
-que hay dentro del link (truncado a 50 caracteres). */

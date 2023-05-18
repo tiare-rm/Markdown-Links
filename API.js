@@ -13,12 +13,12 @@ const readDirectory = (path) => {
       if (err) {
         // si hay error se rechaza la promesa
         reject(err);
-        console.log("Error reading directory");
+        // console.log("Error reading directory");
       } else {
         const filterFiles = files.filter((file) => /\.(txt|md)$/.test(file));
         // si la lectura se realiza correctamente de devuelve la promesa del array del nombre del archivo y directorios
         resolve(filterFiles);
-        console.log("directory found: " + path);
+        // console.log("directory found: " + path);
       }
     });
   });
@@ -43,8 +43,8 @@ const findingLinks = (fileLinks, callback) => {
     // se almacena en el objeto array llamado links
     const links = [];
     let match;
-    // se usa expresión while donde se asigna a match el resultado de ejecutar regex en data 
-     while ((match = regex.exec(data))) {
+    // se usa expresión while donde se asigna a match el resultado de ejecutar regex en data
+    while ((match = regex.exec(data))) {
       // se usa un while para que se siga ejecutando la expresión hasta que se encuentren más coincidencias
       // se extrae el primer contenido con variable text
       const text = match[1]; //texto
@@ -61,7 +61,7 @@ const findingLinks = (fileLinks, callback) => {
 };
 // con estos codigos se pinta la informacion en consola
 findingLinks(fileLinks, (links) => {
-  console.log(links);
+  // console.log(links);
 });
 
 module.exports = {

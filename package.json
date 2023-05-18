@@ -30,6 +30,9 @@
   ],
   "author": "Tiare Rojas Madariaga",
   "license": "ISC",
+  "bin": {
+    "md-links" : "./CLI.js"
+  },
   "bugs": {
     "url": "https://github.com/tiare-rm/Markdown-Links/issues"
   },
