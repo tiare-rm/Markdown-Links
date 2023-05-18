@@ -2,24 +2,24 @@ const { existsSync } = require("node:fs"); // para ver si la path existe
 const pathModule = require("path");
 const { readDirectory, findingLinks } = require("./API");
 const { validateLinks } = require("./valid");
-const { stats } = require("./stats");
-
 const directory =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
-const file = "./ejemplo.md/";
+const filePath = "./ejemplo.md/";
 
 // 1 identificar si la ruta existe
-const mdLinks = (path = "ejemplo.md", options) => {
+const mdLinks = (filePath = "ejemplo.md", options) => {
   // se devuelve una promesa, con una funcion ejecutora cual es asincrona
   return new Promise((resolve, reject) => {
     // se identifica si la ruta existe
-    if (!existsSync(path)) {
+    if (!existsSync(filePath)) {
       //!negacion, si no existe existsSync se rechaza de forma inmediata sin dejar pasar el if
       // sino existe se termina el proceso
       reject(new Error("the path does not exist"));
       return;
     }
     // console.log("existing path");
+
+    const directory = pathModule.dirname(filePath);
 
     // 2 identificar si es relativa o absoluta,
     const relative = "./Ghost Files/Test 1.txt";
@@ -36,8 +36,8 @@ const mdLinks = (path = "ejemplo.md", options) => {
     const absolutePath = pathModule.join(basePath, relativePath);
     //console.log(absolutePath); // Imprime la ruta absoluta en la consola
 
-    const joinPath = pathModule.join(directory, file); // union de rutas
-   //  console.log(joinPath, "JOIN PATH");
+    const joinPath = pathModule.join(directory, filePath); // union de rutas
+    //  console.log(joinPath, "JOIN PATH");
 
     // 4. FUNCION en API se identifica si es directorio o archivo y se se lee los archivos y directorios
     readDirectory(directory)
@@ -50,7 +50,7 @@ const mdLinks = (path = "ejemplo.md", options) => {
           // pathModule file debe ser extrictamente igua a .md
           (file) => pathModule.extname(file) === ".md"
         ); //path.extname devuelve la extension de un archivo en particular
-       // console.log(mdFiles, "list of markdown files inside the directory"); // se pinta en consola en un nuevo formato de arrays
+        // console.log(mdFiles, "list of markdown files inside the directory"); // se pinta en consola en un nuevo formato de arrays
       })
       .catch((err) => {
         // console.error(err, "can not read files and directories");
@@ -58,14 +58,33 @@ const mdLinks = (path = "ejemplo.md", options) => {
 
     //5. FUNCION API se leen los links del archivo ejemplo.md
     findingLinks("./ejemplo.md", (links) => {
-      // console.log(links, '+++++++');
-      // 6. se validan los links del archivo se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
-      validateLinks(links, file).then((links) => {
-        // console.log(links);
-      });
+      if (options.validate) {
+        // console.log(links, '+++++++');
+        // 6. se validan los links del archivo se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
+        validateLinks(links, filePath)
+          .then((validateLinks) => {
+            resolve(validateLinks);
+            // console.log(validatelinks);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      } else {
+        resolve(links);
+      }
     });
     // aqui seguir con los otros codigos :)md-links
   });
 };
-mdLinks();
+const options ={
+  validate: true,
+};
+
+mdLinks(filePath, options)
+  .then((links) => {
+    // console.log(links);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 module.exports = { mdLinks };
