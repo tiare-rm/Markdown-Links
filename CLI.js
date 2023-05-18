@@ -4,6 +4,7 @@ const { mdLinks } = require("./index.js");
 const { getStats, getBroken } = require("./stats");
 const { argv } = require("process");
 const { displayLinks, findingLinks } = require("./API.js");
+const { validateLinks } = require("./valid");
 
 const CLI = () => {
   console.log(colors.magenta("*** Welcome to Markdown-Links *** "));
@@ -19,33 +20,33 @@ const CLI = () => {
     stats: argv.includes("--stats"), // se establece true si esta presente en elos argumentos sino será falso
   };
   if (argv.includes("--help")) {
-    console.log(colors.cyan("Use md-links <path-to-file> [options]"));
+    console.log(colors.cyan("Use md-links <path-to-file> [options]")); // muestra lo mismo de display path
     console.log(
       colors.cyan("\tdisplay path        Display text, href and file")
     );
     console.log(
       colors.cyan(
-        "\t--validate          Display the route, text, href, file, status and message (ok or fail"
+        "\t--validate          Display the route, text, href, file, status and message (ok or fail)"
       )
     );
     console.log(
-      colors.cyan("\t--path              Display information about stadistics")
+      colors.cyan("\t--stats             Display information about stadistics")
     );
     console.log(
       colors.cyan(
-        "\t-- validate --stats Display stadistics from the results (total, unique and broken links"
+        "\t-- validate --stats Display stadistics from the results (total, unique and broken links)"
       )
     );
     return; // se muestra menu en consola
   }
   // si no hay ruta manda error
   if (!filePath) {
-    console.error(colors.bgRed("Debes proporcionar una ruta"));
+    console.error(colors.bgRed("Please provide a path"));
     process.exit(1);
   }
 
   if (argv.includes("display path")) {
-    // funciones traidas de la API para solo llamar los resultados en consola 
+    // funciones traidas de la API para solo llamar los resultados en consola
     findingLinks(filePath, (links) => {
       // como se verá en consola lo que iré haciendo :)
       displayLinks(links);
@@ -57,16 +58,46 @@ const CLI = () => {
   function getLinks(filePath, options) {
     mdLinks(filePath, options)
       .then((links) => {
-        if (options.stats) {
-          const stats = getStats(links);
-          console.log(`Total: ${stats.total}`);
-          console.log(`Unique: ${stats.unique}`);
-        }
         if (options.validate) {
-          const brokenLinks = getBroken(links);
-          console.log(`Broken: ${brokenLinks.length}`);
+          validateLinks(links)
+            .then((validatedLinks) => {
+              let output = "";
+              validatedLinks.forEach((link) => {
+                output += colors.green(
+                  `\nhref: '${link.href.trim()}', \ntext: '${link.text.trim()}', \nfile: '${filePath.trim()}', \nstatus: '${
+                    typeof link.status === "string"
+                      ? link.status.trim()
+                      : link.status
+                  }', \nmessage: '${
+                    typeof link.message === "string"
+                      ? link.message.trim()
+                      : link.message
+                  }'\n`
+                );
+              });
+              if (options.stats) {
+                const stats = getStats(validatedLinks);
+                output += `\nTotal: ${stats.total}\n`;
+                output += `Unique: ${stats.unique}\n`;
+                const brokenLinks = getBroken(validatedLinks);
+                output += `Broken: ${brokenLinks.length}\n`;
+              }
+              console.log(output);
+            })
+            .catch((err) => {
+              console.error(colors.bgRed(err.message));
+              process.exit(1);
+            });
+        } else {
+          if (options.stats) {
+            const stats = getStats(links);
+            console.log(`Total: ${stats.total}`);
+            console.log(`Unique: ${stats.unique}`);
+            const brokenLinks = getBroken(links);
+            console.log(`Broken: ${brokenLinks.length}`);
+          }
+          displayLinks(links);
         }
-        displayLinks(links);
       })
       .catch((err) => {
         console.error(colors.bgRed(err.message));
@@ -74,6 +105,7 @@ const CLI = () => {
       });
   }
 };
+
 module.exports = {
   CLI,
 };
