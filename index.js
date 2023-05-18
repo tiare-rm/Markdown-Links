@@ -64,7 +64,7 @@ const mdLinks = (filePath = "ejemplo.md", options) => {
         validateLinks(links, filePath)
           .then((validateLinks) => {
             resolve(validateLinks);
-            // console.log(validatelinks);
+            // console.log(validateLinks);
           })
           .catch((err) => {
             reject(err);
@@ -76,10 +76,11 @@ const mdLinks = (filePath = "ejemplo.md", options) => {
     // aqui seguir con los otros codigos :)md-links
   });
 };
-const options ={
+// aquí tuve que darle argumentos a options sino no me pasaba en CLI 
+const options = {
   validate: true,
 };
-
+// lo mismo me ocurrio aquí ya que tuve problemas con la ejecucion en mi consola del proceso de CLI.
 mdLinks(filePath, options)
   .then((links) => {
     // console.log(links);
@@ -87,4 +88,5 @@ mdLinks(filePath, options)
   .catch((err) => {
     console.error(err);
   });
+
 module.exports = { mdLinks };

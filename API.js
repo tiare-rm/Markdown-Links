@@ -1,4 +1,5 @@
 const fs = require("fs");
+const colors = require("colors");
 // esta pagina sólo maneja la implementacion de fs
 const directory =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // mi path
@@ -64,9 +65,21 @@ findingLinks(fileLinks, (links) => {
   // console.log(links);
 });
 
+// de aquí tuve que sacar la info para llamarla desde el CLI. y que saliera en consola
+const displayLinks = (links) => {
+  links.forEach((link) => {
+    console.log(colors.yellow(
+      `href: '${link.href}',
+       text: '${link.text}', 
+       file: '${link.file}'`
+    ));
+  });
+};
+
 module.exports = {
   readDirectory,
   findingLinks,
+  displayLinks,
 };
 
 // 4. identificar si es directorio o archivo
