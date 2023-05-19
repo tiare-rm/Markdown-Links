@@ -1,13 +1,13 @@
-const { existsSync } = require("node:fs"); // para ver si la path existe
+const { existsSync } = require("fs"); // para ver si la path existe
 const pathModule = require("path");
 const { readDirectory, findingLinks } = require("./API");
 const { validateLinks } = require("./valid");
 const directory =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links";
-const filePath = "./ejemplo.md/";
+const filePath = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md";
 
 // 1 identificar si la ruta existe
-const mdLinks = (filePath = "ejemplo.md", options) => {
+const mdLinks = (filePath, options) => {
   // se devuelve una promesa, con una funcion ejecutora cual es asincrona
   return new Promise((resolve, reject) => {
     // se identifica si la ruta existe
@@ -53,11 +53,11 @@ const mdLinks = (filePath = "ejemplo.md", options) => {
         // console.log(mdFiles, "list of markdown files inside the directory"); // se pinta en consola en un nuevo formato de arrays
       })
       .catch((err) => {
-        // console.error(err, "can not read files and directories");
+        console.error(err, "can not read files and directories");
       });
 
     //5. FUNCION API se leen los links del archivo ejemplo.md
-    findingLinks("./ejemplo.md", (links) => {
+    findingLinks(filePath, (links) => {
       if (options.validate) {
         // console.log(links, '+++++++');
         // 6. se validan los links del archivo se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
@@ -83,7 +83,7 @@ const options = {
 // lo mismo me ocurrio aquí ya que tuve problemas con la ejecucion en mi consola del proceso de CLI.
 mdLinks(filePath, options)
   .then((links) => {
-    // console.log(links);
+   // console.log(links);
   })
   .catch((err) => {
     console.error(err);
