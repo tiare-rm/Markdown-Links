@@ -21,7 +21,7 @@ const CLI = () => {
   if (argv.includes("--help")) {
     console.log(colors.cyan("Use md-links <path-to-file> [options]"));
     console.log(
-      colors.cyan("\tdisplay path        Display text, href and file")
+      colors.cyan("\t--display path      Display text, href and file")
     );
     console.log(colors.cyan("\t--help              Display menu"));
     console.log(

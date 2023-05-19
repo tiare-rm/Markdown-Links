@@ -1,10 +1,12 @@
 const fs = require("fs");
 const colors = require("colors");
+const { resolve } = require("path");
 // esta pagina sólo maneja la implementacion de fs
 const directory =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links"; // mi path
 const fileLinks =
   "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md";
+const path = "./ejemplo.md";
 
 // 4. función que lee el directorio y retorna un array con los nombres de los archivos y subdirectorios
 const readDirectory = (path) => {
@@ -62,7 +64,7 @@ const findingLinks = (fileLinks, callback) => {
 };
 // con estos codigos se pinta la informacion en consola
 findingLinks(fileLinks, (links) => {
-  // console.log(links);
+// console.log(links);
 });
 
 // de aquí tuve que sacar la info para llamarla desde el CLI. y que saliera en consola

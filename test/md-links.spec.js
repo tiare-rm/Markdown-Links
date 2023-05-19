@@ -2,6 +2,8 @@ const { mdLinks } = require("../index.js");
 const pathModule = require("path");
 const { readDirectory, findingLinks } = require("../API.js");
 const { validateLinks } = require("../valid.js");
+const {getStats, getBroken} = require("../stats.js");
+const { CLI } = require("../CLI.js");
 
 // 0 debería retornar una promesa
 describe("mdLinks", () => {
@@ -50,58 +52,67 @@ describe("readDirectory", () => {
 
 //5. FUNCION API se leen los links del archivo ejemplo.md
 describe("findingLinks", () => {
-  test("5 find links in file ejemplo.md", (done) => {
-    const fileLinks =
-      "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md"; //se usa la ruta al archivo
-    const expected = [
-      {
-        text: "Asíncronía en js",
-        href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript",
-        file: "../ejemplo.md",
-      },
-      {
-        text: "Array.prototype.forEach() - MDN",
-        href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach",
-        file: "../ejemplo.md",
-      },
-      {
-        text: "Array.prototype.filter() - MDN",
-        href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
-        file: "../ejemplo.md",
-      },
-      {
-        text: "código de estado 200 ok",
-        href: "http://httpstat.us/200",
-        file: "../ejemplo.md",
-      },
-      {
-        text: "código de estado 400 Bad Request",
-        href: "https://httpstat.us/400",
-        file: "../ejemplo.md",
-      },
-      {
-        text: "código de estado 403 Forbidden",
-        href: "https://httpstat.us/403",
-        file: "../ejemplo.md",
-      },
-      {
-        text: "código de estado 404 Not Found",
-        href: "https://otra-cosa.net/algun-doc.html",
-        file: "../ejemplo.md",
-      },
-      {
-        text: "código de estado 500 Internal Server",
-        href: "https://httpstat.us/500",
-        file: "../ejemplo.md",
-      },
-    ];
-    findingLinks(fileLinks, (result) => {
-      expect(result).toEqual(expected);
-      done();
-    });
+  it("5 should call the callback function with an array of links", (done) => {
+    const fileLinks = "./ejemplo.md"; // Ajusta la ruta del archivo de ejemplos que deseas utilizar
+
+    const callback = (links) => {
+      try {
+        // Verifica que el resultado sea un array y contenga los enlaces esperados
+        expect(Array.isArray(links)).toBe(true);
+        expect(links.length).toBe(8);
+        expect(links).toEqual([
+          {
+            text: "Asíncronía en js",
+            href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript",
+            file: "../ejemplo.md",
+          },
+          {
+            text: "Array.prototype.forEach() - MDN",
+            href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach",
+            file: "../ejemplo.md",
+          },
+          {
+            text: "Array.prototype.filter() - MDN",
+            href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter",
+            file: "../ejemplo.md",
+          },
+          {
+            text: "código de estado 200 ok",
+            href: "http://httpstat.us/200",
+            file: "../ejemplo.md",
+          },
+          {
+            text: "código de estado 400 Bad Request",
+            href: "https://httpstat.us/400",
+            file: "../ejemplo.md",
+          },
+          {
+            text: "código de estado 403 Forbidden",
+            href: "https://httpstat.us/403",
+            file: "../ejemplo.md",
+          },
+          {
+            text: "código de estado 404 Not Found",
+            href: "https://otra-cosa.net/algun-doc.html",
+            file: "../ejemplo.md",
+          },
+          {
+            text: "código de estado 500 Internal Server",
+            href: "https://httpstat.us/500",
+            file: "../ejemplo.md",
+          },
+        ]);
+        done(); // Indica a Jest que el test ha finalizado correctamente
+      } catch (error) {
+        done(error); // Indica a Jest que el test ha fallado con un error
+      }
+    };
+
+    findingLinks(fileLinks, callback);
   });
 });
 
+//6 VALID funcion 
 //6 validacion de links 
 describe("validateLinks", () => {
   it("6 should return a Promise that resolves to an array of link objects", () => {
@@ -164,21 +175,50 @@ describe("validateLinks", () => {
   });
 });
 
+//7 stats links total y unique 
+describe('getStats', () => {
+  it('7 should return the total and unique number of links', () => {
+    const links = [
+      { href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript" },
+      { href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"},
+      { href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter" },
+      { href: "http://httpstat.us/200"},
+      { href: "https://httpstat.us/400" },
+      { href: "https://httpstat.us/403" },
+      { href: "https://otra-cosa.net/algun-doc.html" },
+      { href: "https://httpstat.us/500" },
+    ];
+    const result = getStats(links);
+    expect(result).toEqual({
+      total: 8,
+      unique: 8,
+    });
+  });
+});
 
-/* USAR PARA LOS LINKS???
-describe("mdLinks", () => {
-it('mdLinks procesa un solo archivo con 3 links sin validar'), () =>{
-  const ruta = 'ejemplo.md';
+//8 stats links broken
+describe('getBroken', () => {
+  it('8 should return a list of broken links', () => {
+    const links = [
+      { href: "https://carlosazaustre.es/manejando-la-asincronia-en-javascript", status: 200 },
+      { href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach", status: 200 },
+      { href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter", status: 200 },
+      { href: "http://httpstat.us/200", status: 200 },
+      { href: "https://httpstat.us/400", status: 400 },
+      { href: "https://httpstat.us/403", status: 403 },
+      { href: "https://otra-cosa.net/algun-doc.html", status: 404 },
+      { href: "https://httpstat.us/500", status: 500 },
+    ];
 
-  return mdLinks(ruta, {validate: false}))
-  .then(
-    (array) => {
-      expect(array).toEqual([
-        href: 'https://carlosazaustre.es/manejando-la-asincronia-en-javascript',
-        text: 'Asíncronía en js',
-        file: 'ejemplo.md',
-      ])
-    }
-  )
-  }
-}); */
+    const result = getBroken(links);
+
+    expect(result).toEqual([
+      { href: "https://httpstat.us/400", status: 400 },
+      { href: "https://httpstat.us/403", status: 403 },
+      { href: "https://otra-cosa.net/algun-doc.html", status: 404 },
+      { href: "https://httpstat.us/500", status: 500 },
+    ]);
+  });
+});
+
+//9 CLI

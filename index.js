@@ -7,7 +7,7 @@ const directory =
 const filePath = "C:/Users/tiare/Desktop/LABORATORIA/4to Md-Links/Markdown-Links/ejemplo.md";
 
 // 1 identificar si la ruta existe
-const mdLinks = (filePath, options) => {
+const mdLinks = (filePath = "ejemplo.md", options) => {
   // se devuelve una promesa, con una funcion ejecutora cual es asincrona
   return new Promise((resolve, reject) => {
     // se identifica si la ruta existe
@@ -57,8 +57,8 @@ const mdLinks = (filePath, options) => {
       });
 
     //5. FUNCION API se leen los links del archivo ejemplo.md
-    findingLinks(filePath, (links) => {
-      if (options.validate) {
+    findingLinks("./ejemplo.md", (links) => {
+      if (options && options.validate) {
         // console.log(links, '+++++++');
         // 6. se validan los links del archivo se toman argumentos para buscar el enlace y los objetos encontrados que son cada enlace
         validateLinks(links, filePath)
@@ -83,7 +83,7 @@ const options = {
 // lo mismo me ocurrio aquí ya que tuve problemas con la ejecucion en mi consola del proceso de CLI.
 mdLinks(filePath, options)
   .then((links) => {
-   // console.log(links);
+  // console.log(links);
   })
   .catch((err) => {
     console.error(err);

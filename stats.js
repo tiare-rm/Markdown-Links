@@ -1,7 +1,3 @@
-// aqupi debo implementar las funciones en donde reciba una lista de objetos de links
-// devolver un objeto que me de estadisticas (total, unique)
-// luego hacer otra función que me reeciba objetos de links y devolverlos broken
-
 // aquí recibo objetos de links como argumentos 
 const getStats = (links) => {
     // devuelto con las siguientes propiedades
