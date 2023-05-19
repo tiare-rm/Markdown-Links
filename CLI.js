@@ -9,6 +9,8 @@ const { validateLinks } = require("./valid");
 const CLI = () => {
   console.log(colors.magenta("*** Welcome to Markdown-Links *** "));
   console.log(colors.magenta("*** by Tiare Rojas Madariaga***"));
+  console.log(colors.bgRed("*** please provide a path ***"));
+  console.log(colors.magenta("*** or use --help to see the menu***"));
 
   // matriz que contiene los argumentos de línea de comando con las rutas ejecutable
   const commandArgs = process.argv.slice(2);
@@ -24,6 +26,7 @@ const CLI = () => {
     console.log(
       colors.cyan("\tdisplay path        Display text, href and file")
     );
+    console.log(colors.cyan("\t--help       Display menu"));
     console.log(
       colors.cyan(
         "\t--validate          Display the route, text, href, file, status and message (ok or fail)"
@@ -41,7 +44,7 @@ const CLI = () => {
   }
   // si no hay ruta manda error
   if (!filePath) {
-    console.error(colors.bgRed("Please provide a path"));
+    // console.error(colors.bgRed("Please provide a path"));
     process.exit(1);
   }
 
@@ -61,42 +64,30 @@ const CLI = () => {
         if (options.validate) {
           validateLinks(links)
             .then((validatedLinks) => {
-              let output = "";
               validatedLinks.forEach((link) => {
-                output += colors.green(
-                  `\nhref: '${link.href.trim()}', \ntext: '${link.text.trim()}', \nfile: '${filePath.trim()}', \nstatus: '${
-                    typeof link.status === "string"
-                      ? link.status.trim()
-                      : link.status
-                  }', \nmessage: '${
-                    typeof link.message === "string"
-                      ? link.message.trim()
-                      : link.message
-                  }'\n`
-                );
+                console.log(colors.green(`href: '${link.href.trim()}'`));
+                console.log(colors.green(`text: '${link.text.trim()}'`));
+                console.log(colors.green(`file: '${filePath.trim()}'`));
+                console.log(colors.green(`status: '${link.status ? link.status.toString().trim() : ""}'`));
+                console.log(colors.green(`message: '${link.message ? link.message.toString().trim() : ""}'\n`));
               });
+  
+              const brokenLinksCount = getBroken(validatedLinks).length;
               if (options.stats) {
-                const stats = getStats(validatedLinks);
-                output += `\nTotal: ${stats.total}\n`;
-                output += `Unique: ${stats.unique}\n`;
-                const brokenLinks = getBroken(validatedLinks);
-                output += `Broken: ${brokenLinks.length}\n`;
+                const stats = getStats(links);
+                console.log(`Unique: ${stats.unique}`);
+                console.log(`Broken: ${brokenLinksCount}`);
+                console.log(`Total: ${stats.total}`);
               }
-              console.log(output);
             })
             .catch((err) => {
               console.error(colors.bgRed(err.message));
               process.exit(1);
             });
-        } else {
-          if (options.stats) {
-            const stats = getStats(links);
-            console.log(`Total: ${stats.total}`);
-            console.log(`Unique: ${stats.unique}`);
-            const brokenLinks = getBroken(links);
-            console.log(`Broken: ${brokenLinks.length}`);
-          }
-          displayLinks(links);
+        } else if (options.stats) {
+          const stats = getStats(links);
+          console.log(`Unique: ${stats.unique}`);
+          console.log(`Total: ${stats.total}`);
         }
       })
       .catch((err) => {
@@ -104,8 +95,9 @@ const CLI = () => {
         process.exit(1);
       });
   }
+  
+  
 };
-
 module.exports = {
   CLI,
 };
@@ -116,18 +108,3 @@ CLI();
 al ejecutar un script. El primer elemento argv[0] representa la ruta del ejecutable de Node.js,
 el segundo elemento argv[1] representa la ruta del archivo del script que se está ejecutando y 
 los elementos subsiguientes argv[2], argv[3], etc. representan los argumentos proporcionados.*/
-
-/* El ejecutable de nuestra aplicación debe poder ejecutarse de la siguiente
-manera a través de la **terminal**:
-
-`md-links <path-to-file> [options]`
-
-Por ejemplo:
-
-```sh
-$ md-links ./some/example.md
-./some/example.md http://algo.com/2/3/ Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html algún doc
-./some/example.md http://google.com/ Google
-```
-*/
