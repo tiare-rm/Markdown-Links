@@ -3,7 +3,6 @@ const colors = require("colors");
 const { mdLinks } = require("./index.js");
 const { getStats, getBroken } = require("./stats");
 const { argv } = require("process");
-const { displayLinks } = require("./API.js");
 const { validateLinks } = require("./valid");
 
 const CLI = () => {
@@ -40,18 +39,24 @@ const CLI = () => {
     return;
   }
 
+  // se verifica si la variable filePath esta vacía si es así me da error en color rojo.
   if (!filePath) {
     console.error(colors.bgRed("Please provide a path"));
+    // finaliza el proceso con el codigo de salida 1
     process.exit(1);
   }
 
+  // si validate y stats son verdaderas se llama a getLinks con true true
   if (options.validate && options.stats) {
     getLinks(filePath, options, true, true);
   } else if (options.validate) {
+    // Si solo options.validate es verdadero, se llama a getLinks con los parámetros true false
     getLinks(filePath, options, true, false);
   } else if (options.stats) {
+    // stats es verdadero, se llama a getLinks con los parámetros false true
     getLinks(filePath, options, false, true);
   } else {
+    // si ninguna de las opciones es verdadera se llama con false, false.
     getLinks(filePath, options, false, false);
   }
 
@@ -59,8 +64,10 @@ const CLI = () => {
     mdLinks(filePath, options)
       .then((links) => {
         if (validate) {
+          // si validate es verdadero, se llama a validateLinks para validar los enlaces obtenidos
           validateLinks(links)
             .then((validatedLinks) => {
+              // se imprime información sobre cada enlace validado
               validatedLinks.forEach((link) => {
                 console.log(colors.green(`href: '${link.href.trim()}'`));
                 console.log(colors.green(`text: '${link.text.trim()}'`));
@@ -83,6 +90,8 @@ const CLI = () => {
 
               const brokenLinksCount = getBroken(validatedLinks).length;
               if (stats) {
+                // imprimir estadisticas de los enlaces
+                // si stats es verdadero se llama getStats para las estadisticas sobre los enlaces
                 const stats = getStats(links);
                 console.log(`Unique: ${stats.unique}`);
                 console.log(`Broken: ${brokenLinksCount}`);
@@ -94,6 +103,7 @@ const CLI = () => {
               process.exit(1);
             });
         } else if (stats) {
+          // imprimir información sobre cada enlace 
           const stats = getStats(links);
           console.log(`Unique: ${stats.unique}`);
           console.log(`Total: ${stats.total}`);
@@ -117,7 +127,6 @@ module.exports = {
 };
 
 CLI();
-
 
 /*argv es una matriz que contiene los argumentos de línea de comandos proporcionados 
 al ejecutar un script. El primer elemento argv[0] representa la ruta del ejecutable de Node.js,

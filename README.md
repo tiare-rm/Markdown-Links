@@ -6,21 +6,23 @@
 * [2. Resumen del proyecto](#2-resumen-del-proyecto)
 * [3. Diagrama de Flujo del Proyecto](#3-diagrama-de-flujo-del-proyecto)
 * [4. Planificación Github Project](#4-planificación-github-project)
-* [5. Interfaz de Linea de Comandos CLI](#5-interfaz-de-línea-de-comandos-CLI)
-* [6. Test Unitarios](#6-test-unitarios)
-* [7. Guía de Instalación](#7-guía-de-instalación)
-* [8. Checklist](#8-checklist)
+* [5. Modo de uso API](#5-Modo-de-uso-API)
+* [6. Modo de uso Interfaz de Linea de Comandos CLI](#5-Modo-de-uso-interfaz-de-línea-de-comandos-CLI)
+* [7. Test Unitarios](#6-test-unitarios)
+* [8. Guía de Instalación](#7-guía-de-instalación)
+* [9. Checklist](#8-checklist)
 
 ***
 
 ## 1. Preámbulo
 
-En este cuarto proyecto se ha creado una herramienta de línea de comando (CLI) al igual que mi propia librería en JavaScript. Se ha creado una herramienta usando Node para que lea y analice archivos en formatos `Markdown`, para así verificar que diversos links contengan y se reporten
-algunas estadísticas. 
+En este cuarto proyecto se ha creado una herramienta de línea de comando (CLI) al igual que mi propia librería en JavaScript. Se ha creado una herramienta usando Node para que lea y analice archivos en formatos `Markdown`, para así verificar que diversos links contengan y se reporten algunas estadísticas. 
 
 ## 2. Resumen del proyecto
 
 En este proyecto se ha construido un programa que será ejecutado en la terminal o consola. La forma en la que se usará esta aplicación es mediante comandos diseñados y programados por mí mediante la misma shell de trabajo. 
+
+Diversos comandos nos daran ingreso a links en archivos/directorios, total de links, unique y broken.
 
 ## 3. Diagrama de Flujo del Proyecto
 
@@ -44,163 +46,95 @@ Para realizar este proyecto se contaba con 4 sprints en los cuales se fueron des
 
 ![3er Sprint](./Planning/sprint3.png)
 
-## 5. Interfaz de Línea de Comando (CLI)
+![4to Sprint](./Planning/sprint4.png)
 
-## 6. Test Unitarios
+## 5. Modo de uso "API"
 
-## 7. Guía de Instalación
+Este proyecto consta de dos partes: API Y CLI.
+
+###**1) JavaScript API**
+Esta es una funcion lógica la cual retorna una promesa mdLinks(filePath, options). Esta recibe dos parámetros siendo filePath una ruta absoluta o relativa, mientras que options ({validate: true} ó {valite: false}) nos retorna un array de objetos de cada link encontrado en nuestro archivo. 
+
+**Valores de retorno**
+Con `validate:false`:
+
+* `href`: URL encontrada.
+* `text`: Texto que aparecía dentro del link (`<a>`).
+* `file`: Ruta del archivo donde se encontró el link.
+
+Con `validate:true`:
+
+* `href`: URL encontrada.
+* `text`: Texto que aparecía dentro del link (`<a>`).
+* `file`: Ruta del archivo donde se encontró el link.
+* `status`: Código de respuesta HTTP.
+* `ok`: Mensaje `fail` en caso de fallo u `ok` en caso de éxito.
+
+## 6. Modo de uso "Interfaz de Línea de Comando (CLI)"
+
+Este ejecutable debe poder usarse a través de la consola o terminal. 
+
+1. Si se usa **md-links** nos entrega un comando que nos dará la bienvenida
+![md-links](./terminal/1md-links.png)
+
+2. Si se usa **md-links --help** nos entregará el menu del programa
+![--help](./terminal/2--help.png)
+
+3. Si se usa **md-links <path> --display path** nos entregará una lista de los links del archivo o directorio que necesitamos revisar
+![--display path](./terminal/3--display.png)
+
+4. Si se usa **md-links <path> --validate** el módulo hará una petición HTTP para averiguar si los links funcionan o no. Nos debe dar la href, text, file, status y mensaje OK o FAIL. 
+![--validate](./terminal/4--validate.png)
+![--validate2](./terminal/4.1--validate.png)
+
+5. Si se usa **md-links <path> --stats** nos entregará un texto con estadísticas básicas sobre los links
+![--stats](./terminal/5--stats.png)
+
+6. Si se usa **md-links <path> --validate --stats** nos mostrará estadísticas que también necesiten de los resultados de validación
+![--validate--stats](./terminal/6--validate--stats.png)
+
+## 7. Test Unitarios
+
+Se realizaron xx test unitarios para cada una de las funciones de la API, como los otros archivos .js del proyecto.
+![test1](./terminal/7test.png)
+
+## 8. Guía de Instalación
+
+Para instalar esta librería se debe hacer de la siguiente manera: 
+
+- de forma global: **npm install -g md-links**,
+- de forma local: **npm install md-links --location=project**,
+- para que todas sus dependiencias funcionen correctamente como tercer paso se debe escribir en consola **npm install**,
+- para correr los test se debe usar **npm run test** o **npm test**.
 
 ## 9. Checklist
 
 ### General
 
-* [ ] Puede instalarse via `npm install --global <github-user>/md-links`
+* [x] Puede instalarse via `npm install --global <github-user>/md-links`
 
 ### `README.md`
 
-* [ ] Un board con el backlog para la implementación de la librería.
-* [ ] Documentación técnica de la librería.
-* [ ] Guía de uso e instalación de la librería
+* [x] Un board con el backlog para la implementación de la librería.
+* [x] Documentación técnica de la librería.
+* [x] Guía de uso e instalación de la librería
 
 ### API `mdLinks(path, opts)`
 
-* [ ] El módulo exporta una función con la interfaz (API) esperada.
-* [ ] Implementa soporte para archivo individual
-* [ ] Implementa soporte para directorios
-* [ ] Implementa `options.validate`
+* [x] El módulo exporta una función con la interfaz (API) esperada.
+* [x] Implementa soporte para archivo individual
+* [x] Implementa soporte para directorios
+* [x] Implementa `options.validate`
 
 ### CLI
 
-* [ ] Expone ejecutable `md-links` en el path (configurado en `package.json`)
-* [ ] Se ejecuta sin errores / output esperado
-* [ ] Implementa `--validate`
-* [ ] Implementa `--stats`
+* [x] Expone ejecutable `md-links` en el path (configurado en `package.json`)
+* [x] Se ejecuta sin errores / output esperado
+* [x] Implementa `--validate`
+* [x] Implementa `--stats`
 
 ### Pruebas / tests
 
-* [ ] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
+* [x] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
   lines, y branches.
-* [ ] Pasa tests (y linters) (`npm test`).
-
-<!--
-### Tutoriales / NodeSchool workshoppers
-
-./some/example.md http://algo.com/2/3/ Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html algún doc
-./some/example.md http://google.com/ Google
-$ md-links ./some/example.md --validate
-./some/example.md http://algo.com/2/3/ ok 200 Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html fail 404 algún doc
-./some/example.md http://google.com/ ok 301 Google
-```
-* [learnyounode](https://github.com/workshopper/learnyounode)
-* [how-to-npm](https://github.com/workshopper/how-to-npm)
-* [promise-it-wont-hurt](https://github.com/stevekane/promise-it-wont-hurt)
-
-### Otros recursos
-
-* [Crear diagramas de flujo](https://app.diagrams.net/)
-* [ESModules en package.json](https://blog.logrocket.com/es-modules-in-node-today/)
-* [Acerca de Node.js - Documentación oficial](https://nodejs.org/es/about/)
-* [Node.js file system - Documentación oficial](https://nodejs.org/api/fs.html)
-* [Node.js http.get - Documentación oficial](https://nodejs.org/api/http.html#http_http_get_options_callback)
-* [Node.js - Wikipedia](https://es.wikipedia.org/wiki/Node.js)
-* [What exactly is Node.js? - freeCodeCamp](https://medium.freecodecamp.org/what-exactly-is-node-js-ae36e97449f5)
-* [¿Qué es Node.js y para qué sirve? - drauta.com](https://www.drauta.com/que-es-nodejs-y-para-que-sirve)
-* [¿Qué es Nodejs? Javascript en el Servidor - Fazt en YouTube](https://www.youtube.com/watch?v=WgSc1nv_4Gw)
-* [¿Simplemente qué es Node.js? - IBM Developer Works, 2011](https://www.ibm.com/developerworks/ssa/opensource/library/os-nodejs/index.html)
-* [Node.js y npm](https://www.genbeta.com/desarrollo/node-js-y-npm)
-* [Módulos, librerías, paquetes, frameworks... ¿cuál es la diferencia?](http://community.laboratoria.la/t/modulos-librerias-paquetes-frameworks-cual-es-la-diferencia/175)
-* [Asíncronía en js](https://carlosazaustre.es/manejando-la-asincronia-en-javascript)
-* [NPM](https://docs.npmjs.com/getting-started/what-is-npm)
-* [Publicar packpage](https://docs.npmjs.com/getting-started/publishing-npm-packages)
-* [Crear módulos en Node.js](https://docs.npmjs.com/getting-started/publishing-npm-packages)
-* [Leer un archivo](https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback)
-* [Leer un directorio](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback)
-* [Path](https://nodejs.org/api/path.html)
-* [Linea de comando CLI](https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e)
-
-### JavaScript
-
-- [ ] **Arrays (arreglos)**
-
-  * [Arreglos](https://curriculum.laboratoria.la/es/topics/javascript/04-arrays)
-  * [Array - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/)
-  * [Array.prototype.sort() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
-  * [Array.prototype.forEach() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
-  * [Array.prototype.map() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
-  * [Array.prototype.filter() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
-  * [Array.prototype.reduce() - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
-
-- [ ] **Objetos (key, value)**
-
-  * [Objetos en JavaScript](https://curriculum.laboratoria.la/es/topics/javascript/05-objects/01-objects)
-
-- [ ] **Uso de condicionales (if-else, switch, operador ternario, lógica booleana)**
-
-  * [Estructuras condicionales y repetitivas](https://curriculum.laboratoria.la/es/topics/javascript/02-flow-control/01-conditionals-and-loops)
-  * [Tomando decisiones en tu código — condicionales - MDN](https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/conditionals)
-
-- [ ] **Funciones (params, args, return)**
-
-  * [Funciones (control de flujo)](https://curriculum.laboratoria.la/es/topics/javascript/02-flow-control/03-functions)
-  * [Funciones clásicas](https://curriculum.laboratoria.la/es/topics/javascript/03-functions/01-classic)
-  * [Arrow Functions](https://curriculum.laboratoria.la/es/topics/javascript/03-functions/02-arrow)
-  * [Funciones — bloques de código reutilizables - MDN](https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions)
-
-- [ ] **Recursión o recursividad**
-
-  * [Píldora recursión - YouTube Laboratoria Developers](https://www.youtube.com/watch?v=lPPgY3HLlhQ)
-  * [Recursión o Recursividad - Laboratoria Developers en Medium](https://medium.com/laboratoria-developers/recursi%C3%B3n-o-recursividad-ec8f1a359727)
-
-- [ ] **Módulos de CommonJS**
-
-  * [Modules: CommonJS modules - Node.js Docs](https://nodejs.org/docs/latest/api/modules.html)
-
-  * [Función Callback - MDN](https://developer.mozilla.org/es/docs/Glossary/Callback_function)
-
-- [ ] **Promesas**
-
-  * [Promise - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-  * [How to Write a JavaScript Promise - freecodecamp (en inglés)](https://www.freecodecamp.org/news/how-to-write-a-javascript-promise-4ed8d44292b8/)
-
-- [ ] **Pruebas unitarias (unit tests)**
-
-  * [Empezando con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/getting-started)
-
-- [ ] **Pruebas asíncronas**
-
-  * [Tests de código asincrónico con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/asynchronous)
-
-- [ ] **Uso de mocks y espías**
-
-  * [Manual Mocks con Jest - Documentación oficial](https://jestjs.io/docs/es-ES/manual-mocks)
-
-  * [Sitio oficial de npm (en inglés)](https://www.npmjs.com/)
-
-  * [package.json - Documentación oficial (en inglés)](https://docs.npmjs.com/files/package.json)
-
-- [ ] **Configuración de npm-scripts**
-
-  * [scripts - Documentación oficial (en inglés)](https://docs.npmjs.com/misc/scripts)
-
-  * [Process - Documentación oficial (en inglés)](https://nodejs.org/api/process.html)
-
-- [ ] **File system (fs, path)**
-
-  * [File system - Documentación oficial (en inglés)](https://nodejs.org/api/fs.html)
-  * [Path - Documentación oficial (en inglés)](https://nodejs.org/api/path.html)
-
-### HTTP
-
-- [ ] **Consulta o petición (request) y respuesta (response).**
-
-  * [Generalidades del protocolo HTTP - MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Overview)
-  * [Mensajes HTTP - MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Messages)
-
-- [ ] **Códigos de status de HTTP**
-
-  * [Códigos de estado de respuesta HTTP - MDN](https://developer.mozilla.org/es/docs/Web/HTTP/Status)
-  * [The Complete Guide to Status Codes for Meaningful ReST APIs - dev.to](https://dev.to/khaosdoctor/the-complete-guide-to-status-codes-for-meaningful-rest-apis-1-5c5)
-
--->
+* [x] Pasa tests (y linters) (`npm test`).
