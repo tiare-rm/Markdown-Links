@@ -52,7 +52,7 @@ Para realizar este proyecto se contaba con 4 sprints en los cuales se fueron des
 
 Este proyecto consta de dos partes: API Y CLI.
 
-###**1) JavaScript API**
+**1) JavaScript API**
 Esta es una funcion lógica la cual retorna una promesa mdLinks(filePath, options). Esta recibe dos parámetros siendo filePath una ruta absoluta o relativa, mientras que options ({validate: true} ó {valite: false}) nos retorna un array de objetos de cada link encontrado en nuestro archivo. 
 
 **Valores de retorno**
@@ -74,28 +74,29 @@ Con `validate:true`:
 
 Este ejecutable debe poder usarse a través de la consola o terminal. 
 
-1. Si se usa **md-links** nos entrega un comando que nos dará la bienvenida
+1. Si se usa **md-links** nos entrega un comando que nos dará la bienvenida:
 ![md-links](./terminal/1md-links.png)
 
-2. Si se usa **md-links --help** nos entregará el menu del programa
+2. Si se usa **md-links --help** nos entregará el menu del programa:
 ![--help](./terminal/2--help.png)
 
-3. Si se usa **md-links <path> --display path** nos entregará una lista de los links del archivo o directorio que necesitamos revisar
+3. Si se usa **md-links <path> --display path** nos entregará una lista de los links del archivo o directorio que necesitamos revisar:
+  
 ![--display path](./terminal/3--display.png)
 
 4. Si se usa **md-links <path> --validate** el módulo hará una petición HTTP para averiguar si los links funcionan o no. Nos debe dar la href, text, file, status y mensaje OK o FAIL. 
 ![--validate](./terminal/4--validate.png)
 ![--validate2](./terminal/4.1--validate.png)
 
-5. Si se usa **md-links <path> --stats** nos entregará un texto con estadísticas básicas sobre los links
+5. Si se usa **md-links <path> --stats** nos entregará un texto con estadísticas básicas sobre los links:
 ![--stats](./terminal/5--stats.png)
 
-6. Si se usa **md-links <path> --validate --stats** nos mostrará estadísticas que también necesiten de los resultados de validación
+6. Si se usa **md-links <path> --validate --stats** nos mostrará estadísticas que también necesiten de los resultados de validación:
 ![--validate--stats](./terminal/6--validate--stats.png)
 
 ## 7. Test Unitarios
 
-Se realizaron xx test unitarios para cada una de las funciones de la API, como los otros archivos .js del proyecto.
+Se realizaron 8 test unitarios para cada una de las funciones de la API, como los otros archivos .js del proyecto.
 ![test1](./terminal/7test.png)
 
 ## 8. Guía de Instalación
