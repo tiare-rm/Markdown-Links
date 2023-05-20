@@ -72,6 +72,7 @@ Con `validate:true`:
 
 ## 6. Modo de uso "Interfaz de Línea de Comando (CLI)"
 
+**2) CLI**
 Este ejecutable debe poder usarse a través de la consola o terminal. 
 
 1. Si se usa **md-links** nos entrega un comando que nos dará la bienvenida:
